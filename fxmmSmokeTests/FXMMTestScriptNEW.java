@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.Select;
@@ -28,10 +29,8 @@ public class FXMMTestScriptNEW {
   public void beforeMethod() {
 
 System.setProperty("webdriver.gecko.driver", "D:\\A.K_softwares\\JAR_Files\\Jars\\geckodriver.exe");
-FirefoxProfile fp = new FirefoxProfile();
-DesiredCapabilities dc = DesiredCapabilities.firefox();
+FirefoxOptions dc = new FirefoxOptions();     //DesiredCapabilities dc = DesiredCapabilities.firefox(); were used earlier
 dc.setCapability("marionette", true);
-dc.setCapability(FirefoxDriver.PROFILE, fp);
 dc.setCapability("acceptInsecureCerts", true); 
 driver = new FirefoxDriver(dc);
 driver.get(URL);
@@ -40,50 +39,73 @@ driver.manage().timeouts().implicitlyWait(30000, TimeUnit.MILLISECONDS);
   }
 
   
-  @Test (priority=0)
-  public void TestLogin() throws InterruptedException {
+  @Test (priority=1)
+  public void TestSearchScreen() throws InterruptedException {
 
 driver.findElement(By.name("USER")).clear();	  
 driver.findElement(By.name("USER")).sendKeys("UMASING");
 driver.findElement(By.name("PASSWORD")).clear();
 driver.findElement(By.name("PASSWORD")).sendKeys("Bunge123");
 driver.findElement(By.xpath("html/body/table[1]/tbody/tr[3]/td/form/p/table/tbody/tr[1]/td/table/tbody/tr[4]/td/input")).click();
-driver.manage().timeouts().implicitlyWait(30000, TimeUnit.MILLISECONDS);
 
 Assert.assertEquals("FXMM - FX & Money Markets", driver.getTitle()	, "Page Title NOT VERIFIED");
-
+driver.findElement(By.xpath(".//*[@id='buttons']/div/ul/li[1]/a")).click();
+Thread.sleep(1000);
 driver.findElement(By.xpath(".//*[@id='buttons']/div/ul/li[1]/ul/li[1]/a")).click();
 
-String x = driver.findElement(By.xpath("")).getText();
+findElement(".//*[@id='form']/div[1]/div[1]/div/div/button");
+findElement(".//*[@id='form']/div[1]/div[1]/div/div/div/ul/li[3]/a");
+findElement(".//*[@id='searchButton']");
 
-assertEquals(driver.getTitle(), x);
+Thread.sleep(5000);
+String Results = driver.findElement(By.xpath(".//*[@id='pager']/div/span[3]")).getText();
+Results = Results.substring(12, 16);
 
-  }
+int Result = Integer.parseInt(Results);
+System.out.println(Result);
+
+
+if (Result > 0) {
+	System.out.println("PASSED.... "+ Result + " results found");
+	}
+
+else
+	{
+	Assert.fail("FAILED");
+	}
+
+
+}
   
   
-  /*@Test (priority=1)
-  public void TestSearchDeals() throws InterruptedException {
+  
+  
+@Test (priority =2) 
+public void TestOutrightForward() {
+	
+driver.get("https://bga-ux-wsd1.na.dir.bunge.com/fxmm/dealCapture/outrightForward/main");
 
-//TestLogin();
-
-driver.findElement(By.xpath("")).click();
-
-//SelectEment(xpath, text);
-	  
-  }*/  
+}
+    
   
   
   @AfterClass
   public void afterMethod() {
-  driver.close();
+//  driver.close();
 
   }
 
   public void SelectEment(String xpath, String selectBytext) {
 
-		Select ele1= (Select) driver.findElement(By.xpath(xpath));
+		Select ele1= new Select(driver.findElement(By.xpath(xpath)));
 			ele1.selectByVisibleText(selectBytext);
 		}
   
+  public void findElement(String Xpath) {
+	  
+	driver.findElement(By.xpath(Xpath)).click();;  
+  }
+  
 }
 
+;
