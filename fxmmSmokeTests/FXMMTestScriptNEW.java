@@ -46,15 +46,17 @@ driver.findElement(By.name("USER")).clear();
 driver.findElement(By.name("USER")).sendKeys("UMASING");
 driver.findElement(By.name("PASSWORD")).clear();
 driver.findElement(By.name("PASSWORD")).sendKeys("Bunge123");
-driver.findElement(By.xpath("html/body/table[1]/tbody/tr[3]/td/form/p/table/tbody/tr[1]/td/table/tbody/tr[4]/td/input")).click();
+findElement("html/body/table[1]/tbody/tr[3]/td/form/p/table/tbody/tr[1]/td/table/tbody/tr[4]/td/input");
 
 Assert.assertEquals("FXMM - FX & Money Markets", driver.getTitle()	, "Page Title NOT VERIFIED");
-driver.findElement(By.xpath(".//*[@id='buttons']/div/ul/li[1]/a")).click();
-Thread.sleep(1000);
-driver.findElement(By.xpath(".//*[@id='buttons']/div/ul/li[1]/ul/li[1]/a")).click();
-
+findElement(".//*[@id='buttons']/div/ul/li[1]/a");
+Thread.sleep(5000);
+findElement(".//*[@id='buttons']/div/ul/li[1]/ul/li[1]/a");
+Thread.sleep(5000);
 findElement(".//*[@id='form']/div[1]/div[1]/div/div/button");
+Thread.sleep(5000);
 findElement(".//*[@id='form']/div[1]/div[1]/div/div/div/ul/li[3]/a");
+Thread.sleep(5000);
 findElement(".//*[@id='searchButton']");
 
 Thread.sleep(5000);
@@ -74,16 +76,19 @@ else
 	Assert.fail("FAILED");
 	}
 
-
 }
   
   
   
   
 @Test (priority =2) 
-public void TestOutrightForward() {
+public void TestOutrightForward() throws InterruptedException {
 	
-driver.get("https://bga-ux-wsd1.na.dir.bunge.com/fxmm/dealCapture/outrightForward/main");
+	findElement(".//*[@id='buttons']/div/ul/li[1]/a");
+	Thread.sleep(1000);
+	
+	Select x = new Select(driver.findElement(By.xpath(".//*[@id='buttons']/div/ul/li[1]/a")));
+	x.selectByVisibleText("Forex");
 
 }
     
@@ -95,6 +100,9 @@ driver.get("https://bga-ux-wsd1.na.dir.bunge.com/fxmm/dealCapture/outrightForwar
 
   }
 
+  
+  
+  
   public void SelectEment(String xpath, String selectBytext) {
 
 		Select ele1= new Select(driver.findElement(By.xpath(xpath)));
