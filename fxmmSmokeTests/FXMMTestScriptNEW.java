@@ -47,19 +47,15 @@ driver.findElement(By.name("USER")).sendKeys("UMASING");
 driver.findElement(By.name("PASSWORD")).clear();
 driver.findElement(By.name("PASSWORD")).sendKeys("Bunge123");
 findElement("html/body/table[1]/tbody/tr[3]/td/form/p/table/tbody/tr[1]/td/table/tbody/tr[4]/td/input");
-
+Thread.sleep(1000);
 Assert.assertEquals("FXMM - FX & Money Markets", driver.getTitle()	, "Page Title NOT VERIFIED");
 findElement(".//*[@id='buttons']/div/ul/li[1]/a");
-Thread.sleep(5000);
 findElement(".//*[@id='buttons']/div/ul/li[1]/ul/li[1]/a");
-Thread.sleep(5000);
 findElement(".//*[@id='form']/div[1]/div[1]/div/div/button");
-Thread.sleep(5000);
 findElement(".//*[@id='form']/div[1]/div[1]/div/div/div/ul/li[3]/a");
-Thread.sleep(5000);
 findElement(".//*[@id='searchButton']");
 
-Thread.sleep(5000);
+Thread.sleep(7000);
 String Results = driver.findElement(By.xpath(".//*[@id='pager']/div/span[3]")).getText();
 Results = Results.substring(12, 16);
 
@@ -84,19 +80,22 @@ else
 @Test (priority =2) 
 public void TestOutrightForward() throws InterruptedException {
 	
-	findElement(".//*[@id='buttons']/div/ul/li[1]/a");
-	Thread.sleep(1000);
-	
-	Select x = new Select(driver.findElement(By.xpath(".//*[@id='buttons']/div/ul/li[1]/a")));
-	x.selectByVisibleText("Forex");
-
+	driver.get("https://bgamodel.na.dir.bunge.com/fxmm/dealCapture/fxSwap/main");
+	Thread.sleep(3000);
+	findElement(".//*[@id='form']/fieldset[2]/div[1]/div/img");
+	Thread.sleep(2000);
+	findElement(".//*[@id='folderListDialog']/div/div[2]/table/tbody/tr[1]/td[1]");
+	Thread.sleep(2000);
+	findElement(".//*[@id='form']/fieldset[2]/div[2]/div/img");
+	Thread.sleep(2000);
+	findElement(".//*[@id='counterpartyListDialog']/div/div[2]/table/tbody/tr[1]/td[1]");
 }
     
   
   
   @AfterClass
   public void afterMethod() {
-//  driver.close();
+  driver.close();
 
   }
 

@@ -45,7 +45,7 @@ public class DBConnection {
        
              conn.clearWarnings();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("select * from FX_OBJECT.DEAL_OUTRIGHT_FORWARD setmaxrows < 10");
+             ResultSet rs = stmt.executeQuery("select * from FX_OBJECT.DEAL_OUTRIGHT_FORWARD");
              System.out.println("DEAL_ID     DEAL_ID     CURRENCY1       CURRENCY2       VALUE_DATE      SPOT_RATE         FORWARD_RATE       FORWARD_POINTS");
              System.out.println("");
              System.out.println("====     ==========      ========        =======        =======          =======           =======              =======");
