@@ -53,7 +53,7 @@ public class DBConnection_FolderGroup {
              while(rs.next())
              {
             	 Deal_Id = rs.getString(ColumnName);
-                 System.out.print(Deal_Id);
+//                 System.out.print(Deal_Id);
              }
              rs.close();
         
