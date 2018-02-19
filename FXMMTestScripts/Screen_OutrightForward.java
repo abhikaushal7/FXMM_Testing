@@ -1,10 +1,12 @@
-package fxmmSmokeTests;
+package FXMMTestScripts;
 
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertSame;
 
+import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -21,11 +23,13 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import databaseConnection.*;
 
-public class FXMMTestScriptNEW {
+public class Screen_OutrightForward {
 	
 	WebDriver driver;
 	String URL = "https://bga-ux-wsd1.na.dir.bunge.com/fxmm/";   
+	DBConnection DB = new DBConnection();
     
 	
   @BeforeClass
@@ -82,7 +86,7 @@ else
   
   
 @Test (priority =2) 
-public void TestOutrightForward() throws InterruptedException {
+public void TestOutrightForward() throws InterruptedException, SQLException {
 	
 	driver.get("https://bga-ux-wsd1.na.dir.bunge.com/fxmm/dealCapture/outrightForward/main");
 	Thread.sleep(3000);
@@ -108,19 +112,35 @@ public void TestOutrightForward() throws InterruptedException {
 	find_Click(".//*[@id='confirmDialogYesButton']");
 	WebElement Loading = driver.findElement(By.xpath(".//*[@id='loadingModalTitle']"));
 	
-	if (Loading.isDisplayed()) {
-		Thread.sleep(10000);
+	
+	
+	try {
+		if (Loading.isDisplayed()) {
+			Thread.sleep(10000);
+			assertEquals(driver.findElement(By.xpath(".//*[@id='successMessageDiv']/b")).getText(), "Outright Forward Deal inserted successfully");
+			System.out.println("Element INSERTED SUCCESSFULLY");
+		}
+		
+		else {
 		assertEquals(driver.findElement(By.xpath(".//*[@id='successMessageDiv']/b")).getText(), "Outright Forward Deal inserted successfully");
 		System.out.println("Element INSERTED SUCCESSFULLY");
-	}
+		}
+		Thread.sleep(1000);
+		
+		String DealID = driver.findElement(By.xpath(".//*[@id='dealId']")).getAttribute("value");
 	
-	else {
-	assertEquals(driver.findElement(By.xpath(".//*[@id='successMessageDiv']/b")).getText(), "Outright Forward Deal inserted successfully");
-	System.out.println("Element INSERTED SUCCESSFULLY");
-	}
-	Thread.sleep(1000);
-	String DealID = driver.findElement(By.xpath(".//*[@id='dealId']")).getAttribute("value");
-	System.out.println(DealID);
+			System.out.println(DealID);
+			
+			String DBData = DB.DBConnection("select * from FX_OBJECT.DEAL_OUTRIGHT_FORWARD where DEAL_ID =" + DealID);
+			
+			System.out.println("DATABASE VALUE IS= "+ DBData);
+			
+			assertEquals(DealID, DBData, "DB VALUES NOT MATCHING");
+		
+	} catch (Exception e) {
+	
+		System.out.println("THE FOLLOWING ERROR OCCURED WHILE INSERTING:- "+ driver.findElement(By.xpath(".//*[@id='errorMessageDiv']/b")).getText());
+	}	
 	
 }
     
@@ -129,8 +149,7 @@ public void TestOutrightForward() throws InterruptedException {
   @AfterClass
   public void afterMethod() {
  
-	  driver.quit();
-//	  driver.close();
+	  driver.close();
 
   }
 

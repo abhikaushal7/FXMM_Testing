@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DBConnection {
+public class DBConnection_FolderGroup {
 
-	public String DBConnection(String query) throws SQLException  {
+	public String DBConnection(String query, String ColumnName) throws SQLException  {
 		
 		System.out.println("-------- Oracle JDBC Connection Testing ------");
 
@@ -49,23 +49,20 @@ public class DBConnection {
            ResultSet rs = stmt.executeQuery(query);
             
                           
-             System.out.println("");
+           System.out.println("");
              while(rs.next())
              {
-            	 Deal_Id = rs.getString("DEAL_ID");
+            	 Deal_Id = rs.getString(ColumnName);
                  System.out.print(Deal_Id);
              }
              rs.close();
         
-        
-        
-        
-        
-        
+             
         } else {
             System.out.println("Failed to make connection!");
         }
 		return Deal_Id;
+	
     
 	}
 
